@@ -6,7 +6,8 @@
 
 require_once(__DIR__ . '/../../config.php');
 require_once('./simple_form.php');
-require_once('./db_operations.php');
+require_once('./utils/db_operations.php');
+require_once('./utils/custom_functions.php');
 
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
@@ -22,10 +23,10 @@ $mform = new cargar_clase_formulario();
 if ($mform->is_cancelled()) {
   redirect($CFG->wwwroot);
 } else if ($fromform = $mform->get_data()) {
+  
   $clase_data = new stdClass();
   $clase_data->Profesor_ID = 999;
   $clase_data->Alumno_ID = 999;
-  // $clase_data->Fecha = $fromform->fechaClase;
   $clase_data->Horas = $fromform->duracionClase;
   $clase_data->Materia_ID = 42;
   $clase_data->Comentarios = $fromform->comentarios;
@@ -34,8 +35,11 @@ if ($mform->is_cancelled()) {
   $clase_data->Nivel = 0;
   $clase_data->Monto = 9999;
 
+  $timezone = 'America/Argentina/Buenos_Aires';
+  $clase_data->Fecha = convert_time($fromform->fechaClase, $timezone);
+
   set_clase($clase_data);
-  redirect($CFG->wwwroot . '/my');
+  redirect($CFG->wwwroot.'/my');
   
 } else {
   $mform->set_data($toform);

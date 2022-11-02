@@ -1,7 +1,7 @@
 <?php
 //moodleform is defined in formslib.php
 require_once("$CFG->libdir/formslib.php");
-require_once("./db_operations.php");
+require_once("./utils/db_operations.php");
 
 $materias = get_materias();
 $alumnos = get_nombres_apellidos_alumnos();
