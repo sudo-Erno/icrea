@@ -23,23 +23,23 @@ $mform = new cargar_clase_formulario();
 if ($mform->is_cancelled()) {
   redirect($CFG->wwwroot);
 } else if ($fromform = $mform->get_data()) {
+  $id_alumno = intval($fromform->nombreAlumno) + 1;
   
   $clase_data = new stdClass();
-  $clase_data->Profesor_ID = 999;
-  $clase_data->Alumno_ID = 999;
+
+  $clase_data->Alumno_ID = $id_alumno;
+  $clase_data->Profesor_ID = 999; // Sacar automaticamente de la session
   $clase_data->Horas = $fromform->duracionClase;
-  $clase_data->Materia_ID = 42;
+  $clase_data->Fecha = convert_time($fromform->fechaClase, 'America/Argentina/Buenos_Aires');
+  $clase_data->Materia_ID = $fromform->materia;
   $clase_data->Comentarios = $fromform->comentarios;
-  $clase_data->Profesor_Pais = 0;
-  $clase_data->Alumno_Pais = 0;
+  $clase_data->Profesor_Pais = 0; // Una vez que tengo el nombre, hago funcion para que me traiga este valor
+  $clase_data->Alumno_Pais = get_pais_id_alumno($id_alumno);
   $clase_data->Nivel = 0;
-  $clase_data->Monto = 9999;
-
-  $timezone = 'America/Argentina/Buenos_Aires';
-  $clase_data->Fecha = convert_time($fromform->fechaClase, $timezone);
-
+  $clase_data->Monto = 9999; // Se calcula dependiendo el nivel, horas y nivel del profesor
+  
   set_clase($clase_data);
-  redirect($CFG->wwwroot.'/my');
+  redirect($CFG->wwwroot . '/my');
   
 } else {
   $mform->set_data($toform);

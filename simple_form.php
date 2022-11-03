@@ -6,6 +6,8 @@ require_once("./utils/db_operations.php");
 $materias = get_materias();
 $alumnos = get_nombres_apellidos_alumnos();
 
+// TODO: Agregar autocompletado desplegable para seleccionar el nivel de la clase
+
 class cargar_clase_formulario extends moodleform {
     //Add elements to form
     public function definition() {
@@ -31,7 +33,7 @@ class cargar_clase_formulario extends moodleform {
         $mform->addElement('date_selector', 'fechaClase', 'Fecha de la clase');
         $mform->addElement('duration', 'duracionClase', 'Duracion de la clase');
 
-        $this->add_action_buttons($cancel=true, $submitlabel="Click Me!");
+        $this->add_action_buttons($cancel=true, $submitlabel="Cargar");
     }
     //Custom validation should be added here
     // function validation($data, $files) {
