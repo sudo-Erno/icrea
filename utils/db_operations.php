@@ -18,6 +18,20 @@ function get_materias(){
     return $materias;
 }
 
+// TODO: Buscar que significaba Ex. en los Excels
+function get_niveles(){
+    global $DB;
+    $niveles = array();
+    
+    $query_niveles = $DB->get_records('niveles');
+
+    foreach($query_niveles as $nivel){
+        array_push($niveles, $nivel->nivel);
+    }
+
+    return $niveles;
+}
+
 // TODO: No se si esto relentiza, pero encontrar una manera de hacer que no tarde tanto...
 function get_nombres_apellidos_alumnos(){
     global $DB;
@@ -35,10 +49,19 @@ function get_pais_id_alumno($id_alumno){
     global $DB;
     
     $results = $DB->get_records('alumnos', ['ID' => $id_alumno]);
-    // $results = $DB->get_records_sql("SELECT ID, Pais FROM mdl_alumnos WHERE Nombre='$nombre' AND Apellido='$apellido';");
 
     foreach($results as $r){
-        return $r->pais;
+        return intval($r->pais);
+    }
+}
+
+function get_nivel_alumno($id_alumno){
+    global $DB;
+
+    $results = $DB->get_records('alumnos', ['ID'=>$id_alumno]);
+
+    foreach($results as $r){
+        return $r->nivel;
     }
 }
 

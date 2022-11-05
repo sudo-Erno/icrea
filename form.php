@@ -22,23 +22,32 @@ $mform = new cargar_clase_formulario();
 //Form processing and displaying is done here
 if ($mform->is_cancelled()) {
   redirect($CFG->wwwroot);
+
 } else if ($fromform = $mform->get_data()) {
+  
   $id_alumno = intval($fromform->nombreAlumno) + 1;
+  $nivel_alumno = get_nivel_alumno($id_alumno);
   
   $clase_data = new stdClass();
 
   $clase_data->Alumno_ID = $id_alumno;
+  $clase_data->Alumno_Pais = get_pais_id_alumno($id_alumno);
+  
   $clase_data->Profesor_ID = 999; // Sacar automaticamente de la session
+  $clase_data->Profesor_Pais = 0; // Una vez que tengo el nombre, hago funcion para que me traiga este valor
+  
   $clase_data->Horas = $fromform->duracionClase;
-  $clase_data->Fecha = convert_time($fromform->fechaClase, 'America/Argentina/Buenos_Aires');
   $clase_data->Materia_ID = $fromform->materia;
   $clase_data->Comentarios = $fromform->comentarios;
-  $clase_data->Profesor_Pais = 0; // Una vez que tengo el nombre, hago funcion para que me traiga este valor
-  $clase_data->Alumno_Pais = get_pais_id_alumno($id_alumno);
-  $clase_data->Nivel = 0;
+  $clase_data->Nivel = intval($fromform->nivel) + 1;
   $clase_data->Monto = 9999; // Se calcula dependiendo el nivel, horas y nivel del profesor
   
-  set_clase($clase_data);
+  $clase_data->Fecha = convert_time($fromform->fechaClase, 'America/Argentina/Buenos_Aires'); // Aca le deberia pasar el ID del pais del profesor y buscar en una liste el que corresponde
+
+  var_dump($clase_data->Nivel);
+  die();
+  // calcular_monto($clase_data->Nivel, $nivel_alumno);
+  // set_clase($clase_data);
   redirect($CFG->wwwroot . '/my');
   
 } else {

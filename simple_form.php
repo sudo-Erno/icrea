@@ -5,6 +5,7 @@ require_once("./utils/db_operations.php");
 
 $materias = get_materias();
 $alumnos = get_nombres_apellidos_alumnos();
+$niveles = get_niveles();
 
 // TODO: Agregar autocompletado desplegable para seleccionar el nivel de la clase
 
@@ -14,18 +15,21 @@ class cargar_clase_formulario extends moodleform {
         global $CFG;
         global $materias;
         global $alumnos;
+        global $niveles;
        
         $attributes = array('size'=>'75');
         $mform = $this->_form; // Don't forget the underscore! 
 
-        $options = array(
+        $opciones_alumno = array(
             'multiple' => false,
             'noselectionstring' => 'Seleccione el nombre del alumno'
         );
-        $mform->addElement('autocomplete', 'nombreAlumno', 'Nombre del Alumno', $alumnos, $options);
+        $mform->addElement('autocomplete', 'nombreAlumno', 'Nombre del Alumno', $alumnos, $opciones_alumno);
 
         $mform->addElement('select', 'materia', 'Materia', (array)$materias);
-        
+
+        $mform->addElement('select', 'nivel', 'Seleccione nivel de la clase', $niveles);
+
         $mform->addElement('textarea', 'comentarios', 'Comentarios acerca de la clase', 'rows=20 cols=50');
         $mform->setType('comentarios', PARAM_NOTAGS);
 
