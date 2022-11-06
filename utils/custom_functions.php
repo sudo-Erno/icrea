@@ -11,7 +11,8 @@ function convert_time($unixtime, $timezone){
 }
 
 
-function calcular_monto($nivel_clase, $nivel_profesor){
+// Dada el nivel de clase, te el precio TOTAL de la clase
+function calcular_monto_clase($nivel){
     // 1 -> Ingreso Uni.
     // 2 --> Ingreso Uni. ex. 
     // 3 --> Primario
@@ -20,21 +21,33 @@ function calcular_monto($nivel_clase, $nivel_profesor){
     // 6 --> Secundario ex.
     // 7 --> Uni.
     // 8 --> Uni. ex.
-    $precio_clase;
 
-    if ($nivel_clase == 1 or $nivel_clase == 2){
-        $precio_clase = 1390;
-    } elseif ($nivel_clase == 3 or $nivel_clase == 4){
-        $precio_clase = 1130;
-    } elseif ($nivel_clase == 5 or $nivel_clase == 6){
-        $precio_clase = 1250;
-    } elseif ($nivel_clase == 7){
-        $precio_clase = 1550;
-    } elseif ($nivel_clase == 8){
-        $precio_clase = 1680;
+    if ($nivel == 1 or $nivel == 2){
+        return 1390;
+    } elseif ($nivel == 3 or $nivel == 4){
+        return 1130;
+    } elseif ($nivel == 5 or $nivel == 6){
+        return 1250;
+    } elseif ($nivel == 7){
+        return 1550;
+    } elseif ($nivel == 8){
+        return 1680;
     }
-
-    return $precio_clase;
 }
 
+// Calcula monto del profesor
+function calcular_monto_prof($nivel_profesor, $nivel_clase){
+    $monto = calcular_monto_clase($nivel_clase);
+    $aumento = 0;
+        
+    if ($nivel_profesor < 9){
+        $aumento = 100 + ($nivel_profesor * 5 - 5);
+        $aumento = $aumento / 100;
+    } elseif ($nivel_profesor == 9){
+        $aumento = 1.45;
+    } elseif ($nivel_profesor == 10){
+        $aumento = 1.55;
+    }
+    return $monto * $aumento;
+}
 ?>

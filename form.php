@@ -2,7 +2,11 @@
 
 //$CFG->dataroot "F:\MoodleWindowsInstaller-latest-400\server\moodledata"
 
-// TODO: Obtener ID del profesor, alumno, de sus respectivos paises, del nivel y de la materia
+/*
+TODO:
+- [ ] Obtener ID del profesor, sus respectivos paises, del nivel y de la materia
+- [ ] Calcular monto total del profesor
+*/
 
 require_once(__DIR__ . '/../../config.php');
 require_once('./simple_form.php');
@@ -32,21 +36,22 @@ if ($mform->is_cancelled()) {
 
   $clase_data->Alumno_ID = $id_alumno;
   $clase_data->Alumno_Pais = get_pais_id_alumno($id_alumno);
+  $clase_data->Nivel_Alumno = $nivel_alumno;
   
   $clase_data->Profesor_ID = 999; // Sacar automaticamente de la session
   $clase_data->Profesor_Pais = 0; // Una vez que tengo el nombre, hago funcion para que me traiga este valor
-  
+  $clase_data->Monto_Profesor = 0;
+
   $clase_data->Horas = $fromform->duracionClase;
   $clase_data->Materia_ID = $fromform->materia;
   $clase_data->Comentarios = $fromform->comentarios;
   $clase_data->Nivel = intval($fromform->nivel) + 1;
-  $clase_data->Monto = 9999; // Se calcula dependiendo el nivel, horas y nivel del profesor
-  
+  $clase_data->Monto = calcular_monto_clase($nivel_alumno);
+
   $clase_data->Fecha = convert_time($fromform->fechaClase, 'America/Argentina/Buenos_Aires'); // Aca le deberia pasar el ID del pais del profesor y buscar en una liste el que corresponde
 
-  var_dump($clase_data->Nivel);
+  var_dump($clase_data->Monto);
   die();
-  // calcular_monto($clase_data->Nivel, $nivel_alumno);
   // set_clase($clase_data);
   redirect($CFG->wwwroot . '/my');
   

@@ -1,0 +1,2 @@
+- [ ] Depende que region estes, variar los precios.
+- [ ] Re-estructurar el codigo de db_operations.php para que sea mas eficiente.

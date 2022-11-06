@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Hacer este codigo mas eficiente porque estoy llamando cada dos por tres a la DB
+
 require_once(__DIR__ . '/../../../config.php');
 
 $paises_alumnos = array();
