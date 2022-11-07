@@ -13,13 +13,17 @@ require_once('./simple_form.php');
 require_once('./utils/db_operations.php');
 require_once('./utils/custom_functions.php');
 
+global $PAGE;
+global $DB;
+
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title("Cargar Clase");
 $PAGE->set_heading("Cargar Clase");
 $PAGE->set_url($CFG->wwwroot.'/blank_page.php');
 
-global $DB;
+
+check_if_allowed();
 
 $mform = new cargar_clase_formulario();
 
@@ -50,8 +54,6 @@ if ($mform->is_cancelled()) {
 
   $clase_data->Fecha = convert_time($fromform->fechaClase, 'America/Argentina/Buenos_Aires'); // Aca le deberia pasar el ID del pais del profesor y buscar en una liste el que corresponde
 
-  var_dump($clase_data->Monto);
-  die();
   // set_clase($clase_data);
   redirect($CFG->wwwroot . '/my');
   
@@ -59,12 +61,12 @@ if ($mform->is_cancelled()) {
   $mform->set_data($toform);
 }
 
-$templatecontext = [
-  'materias' => $materias,
-];
+// $templatecontext = [
+//   'materias' => $materias,
+// ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_form/form', $templatecontext);
+// echo $OUTPUT->render_from_template('local_form/form', $templatecontext);
 
 $mform->display();
 

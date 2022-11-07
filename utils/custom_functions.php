@@ -1,6 +1,8 @@
 <?php
 
-// require_once('./data/metricas.php');
+// F:\MoodleWindowsInstaller-latest-400\server\moodle\local\form
+
+require_once(__DIR__ . '/../../../config.php');
 
 // date_default_timezone_set(); // Depende del pais. Tener en cuenta para cuando se expanda
 function convert_time($unixtime, $timezone){
@@ -50,4 +52,18 @@ function calcular_monto_prof($nivel_profesor, $nivel_clase){
     }
     return $monto * $aumento;
 }
+
+function check_if_allowed(){
+    if (!is_siteadmin()){
+        // $templatecontext = [
+        //     'link' => $CFG->wwwroot . '/my',
+        // ];
+        
+        // echo $OUTPUT->render_from_template('./form', $templatecontext);
+        
+        die('Solo los profesores pueden acceder a esta seccion!');
+        // redirect();
+    }
+}
+
 ?>
